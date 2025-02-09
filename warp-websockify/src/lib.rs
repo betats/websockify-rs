@@ -16,15 +16,15 @@ use futures::prelude::*;
 use log::{debug, error, info};
 use std::io;
 use std::net::{SocketAddr, ToSocketAddrs};
+#[cfg(unix)]
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt};
 use tokio::net::TcpStream;
-use warp::ws::{Message, WebSocket, Ws};
-use warp::{reject::Rejection, reply::Reply, Filter};
-#[cfg(unix)]
-use std::path::{Path, PathBuf};
 #[cfg(unix)]
 use tokio::net::UnixStream;
+use warp::ws::{Message, WebSocket, Ws};
+use warp::{reject::Rejection, reply::Reply, Filter};
 
 fn option_socket_to_string(addr: Option<SocketAddr>) -> String {
     if let Some(addr) = addr {
