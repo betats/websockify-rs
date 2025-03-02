@@ -1,7 +1,7 @@
 [package]
 name = "warp-websockify"
-version = "0.3.0"
-authors = ["Okamura Yasunobu <okamura@informationsea.info>"]
+version = "0.1.0"
+authors = ["@betats"]
 edition = "2018"
 license = "Apache-2.0"
 description = "websockify implementation for warp"
