@@ -3,6 +3,8 @@ name: Build-2
 on:
   push:
     tags: [ 'v*' ]
+    branches: [ "master" ]
+
 
 
 env:
