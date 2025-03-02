@@ -3,6 +3,7 @@
 ## orignal repository
 
 [![Build](https://github.com/informationsea/websockify-rs/actions/workflows/build.yml/badge.svg)](https://github.com/informationsea/websockify-rs/actions/workflows/build.yml)
+original version: 0.3.1
 
 ## versioning
 
