@@ -16,10 +16,6 @@ jobs:
       id: short_tag
       if: ${{ startsWith(github.ref, 'refs/tags/v')  }}
       run: echo "::set-output name=tag::$(basename ${{ github.ref }})"
-    - name: Hash
-      id: hash
-      if: ${{ startsWith(github.ref, 'refs/heads/')  }}
-      run: echo "::set-output name=tag::${{ github.sha }}"
     outputs:
       tag: ${{ steps.short_tag.outputs.tag }}${{ steps.hash.outputs.tag }}
   
@@ -89,7 +85,7 @@ jobs:
           Compress-Archive -DestinationPath ${{ env.APP_NAME }}-${{ matrix.config.target }}-${{ needs.tag.outputs.tag }}.zip -Path ${{ env.APP_NAME }}-${{ matrix.config.target }}-${{ needs.tag.outputs.tag }}/
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ env.APP_NAME }}-${{ matrix.config.target }}-${{ needs.tag.outputs.tag}}.zip
         path: |
@@ -101,8 +97,8 @@ jobs:
     if: ${{ startsWith(github.ref, 'refs/tags/v')  }}
     steps:
       - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
+        run: |
+          gh release create ${{github.ref_name}} --generate-notes ${{github.ref_name}}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
