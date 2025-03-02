@@ -3,7 +3,6 @@ name: Build-2
 on:
   push:
     tags: [ 'v*' ]
-    branches: [ "master" ]
 
 
 env:
@@ -61,9 +60,6 @@ jobs:
       with:
         submodules: true
           #        submodules: recursive
-
-    - name: file-test
-      run: find . -type f
 
     - name: Build
       run: cargo build --release
