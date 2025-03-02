@@ -2,7 +2,7 @@ name: my-upload-test
 
 on:
   push:
-    branches: [ "master", "test" ]
+    branches: [ "test" ]
 
 env:
   CARGO_TERM_COLOR: always
