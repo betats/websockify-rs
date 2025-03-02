@@ -1,0 +1,43 @@
+name: my-upload-test
+
+on:
+  push:
+    branches: [ "test" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run tests
+      run: echo 123 > app.txt
+
+    - name: Upload artifacts
+      id: create_release
+      uses: actions/upload-artifact@v4
+      with:
+        name: app.txt
+        path: ./app.txt
+
+
+  release:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create release
+        run: |
+          gh release create ${{github.ref_name}} --generate-notes ${{github.ref_name}}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ needs.tag.outputs.tag }}
+          draft: false
+          prerelease: false
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+
