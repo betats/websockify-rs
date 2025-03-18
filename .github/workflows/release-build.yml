@@ -106,6 +106,9 @@ jobs:
       with:
         name: ${{ env.APP_NAME }}-${{ matrix.config.target }}-${{ needs.tag.outputs.tag }}
 
+    - name: directroy
+      run: find .
+
     - name: ZIP archive
       run: zip -r ${{ env.APP_NAME }}-${{ matrix.config.target }}-${{ needs.tag.outputs.tag }}.zip ${{ env.APP_NAME }}-${{ matrix.config.target }}-${{ needs.tag.outputs.tag }}/
 
