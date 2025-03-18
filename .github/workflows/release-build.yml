@@ -50,7 +50,7 @@ jobs:
         submodules: true
 
     - name: musl tools
-      if: matrix.config.target == "x86_64-unknown-linux-musl"
+      if: matrix.config.target == 'x86_64-unknown-linux-musl'
       run: |
         sudo apt install -qq -y --no-install-recommends musl-tools
 
