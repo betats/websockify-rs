@@ -64,50 +64,16 @@ jobs:
         path: |
               ./${{ env.APP_NAME }}-${{ matrix.config.target }}-${{ needs.tag.outputs.tag }}
 
-              #  release:
-              #    needs: [build, tag]
-              #    runs-on: ubuntu-latest
-              #    if: ${{ startsWith(github.ref, 'refs/tags/v')  }}
-              #    steps:
-              #      - name: Create release
-              #        run: |
-              #          gh release create ${{github.ref_name}} --generate-notes ${{github.ref_name}}.zip
-              #        env:
-              #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              #        with:
-              #          tag_name: ${{ github.ref }}
-              #          release_name: Release ${{ needs.tag.outputs.tag }}
-              #          draft: false
-              #          prerelease: false
-              #    outputs:
-              #      upload_url: ${{ steps.create_release.outputs.upload_url }}
-              #
-              #  upload:
-              #    needs: [release, tag]
-              #    runs-on: ubuntu-latest
-              #    if: ${{ startsWith(github.ref, 'refs/tags/v')  }}
-              #    strategy:
-              #      matrix:  
-              #        target:
-              #        - x86_64-pc-windows-msvc
-              #        - x86_64-apple-darwin
-              #        - x86_64-unknown-linux-gnu
-              #        - x86_64-unknown-linux-musl
-              #        - armv7-unknown-linux-gnueabihf
-              #        - aarch64-unknown-linux-gnu
-              #        - aarch64-pc-windows-msvc
-              #    steps:
-              #      - name: Download artifacts
-              #        uses: actions/download-artifact@v2
-              #        with:
-              #          name: ${{ env.APP_NAME }}-${{ matrix.target }}-${{ needs.tag.outputs.tag }}.zip
-              #      - name: Upload Release Asset
-              #        id: upload-release-asset 
-              #        uses: actions/upload-release-asset@v1
-              #        env:
-              #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              #        with:
-              #          upload_url: ${{ needs.release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-              #          asset_path: ./${{ env.APP_NAME }}-${{ matrix.target }}-${{ needs.tag.outputs.tag }}.zip
-              #          asset_name: ${{ env.APP_NAME }}-${{ matrix.target }}-${{ needs.tag.outputs.tag }}.zip
-              #          asset_content_type: application/zip
+    - name: Create release
+      run: |
+        gh release create ${{github.ref_name}} --generate-notes ${{github.ref_name}}.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ needs.tag.outputs.tag }}
+        draft: true
+        prerelease: false
+      outputs:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+
