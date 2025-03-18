@@ -13,3 +13,5 @@ original version: 0.3.1
 
 - 0.1
   - initial release with noVNC v1.5.0
+- 0.2
+  - with noVNC v1.6.0
